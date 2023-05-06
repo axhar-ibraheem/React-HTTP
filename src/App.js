@@ -5,11 +5,14 @@ import "./App.css";
 
 function App() {
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsloading] = useState(false);
 
   async function movieFetchHandler() {
+    setIsloading(true);
     const response = await fetch("https://swapi.dev/api/films");
     const data = await response.json();
     setMovies(data.results);
+    setIsloading(false);
   }
 
   return (
@@ -18,7 +21,7 @@ function App() {
         <button onClick={movieFetchHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        {isLoading ? <span>loading...</span> : <MoviesList movies={movies} />}
       </section>
     </React.Fragment>
   );
